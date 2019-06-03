@@ -33,8 +33,12 @@ expx(1) = exp(expx(1));
 
 disp(expx);
 
-ezplot('-45.2942 + 94.1943*x + -6.1268 * x^2', 0, 9);
+
+xrange = 0:0.1:9
+polyy = polyx(1) + polyx(2) * xrange + polyx(3) * xrange.^2;
+expy = expx(1) * exp(expx(2) * xrange);
+plot(xrange, polyy);
 hold on;
-ezplot('67.3938 * exp(0.2390*x)', 0, 9);
+plot(xrange, expy);
 hold on;
-plot(t, y)
+plot(t, y);
