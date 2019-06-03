@@ -1,22 +1,39 @@
 
-function ans = NewtonIteration(err, lambda)
+function ans = NewtonIteration(err, lambda, no, zuni)
 	iter_step = 0;
-	x = 0.6;
-	while abs(poly1(x)) > err
-		s = poly1(x) / poly1_(x);
+	
+
+	if no == 1
+		func = @poly1;
+		derive = @poly1_;
+		x = 0.6;
+	else
+		func = @poly2;
+		derive = @poly2_;
+		x = 1.35;
+	end
+
+	fprintf('result of fzero: %f\n\n', fzero(func,x));
+
+	while abs(func(x)) > err
+		s = func(x) / derive(x);
 		l = lambda;
 		xk = x - l * s;
-		i = 0;
-		while (abs(poly1(xk)) >= abs(poly1(x)))
-			l = l / 2;
-			xk = x - l * s;
-			i = i + 1;
-		end 
-		fprintf('in iteration step %d, lambda = %f, x = %f, f(x) = %f\n', iter_step, l, xk, poly1(xk));
+		if zuni
+			i = 0;
+			while (abs(func(xk)) >= abs(func(x)))
+				l = l / 2;
+				xk = x - l * s;
+				i = i + 1;
+			end 
+		end
+		fprintf('in iteration step %d, lambda = %f, x = %f, f(x) = %f\n', iter_step, l, xk, func(xk));
 		iter_step = iter_step + 1;
 		x = xk;
 	end
+	
 	ans = x;
+
 end
 
 
